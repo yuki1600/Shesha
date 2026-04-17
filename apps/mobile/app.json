@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Śeṣa",
+    "slug": "sesha",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/sesha-logo.png",
+    "scheme": "sesha",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/sesha-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/sesha-logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/sesha-logo.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Sesha to access your photos so you can update your profile picture.",
+          "cameraPermission": "Allow Sesha to access your camera so you can take a profile picture."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
