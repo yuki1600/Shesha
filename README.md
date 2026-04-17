@@ -1,6 +1,6 @@
 # Śeṣa (Shesha)
 
-An invite-only, India-first mobile community app designed specifically for the Ramanuja Sampradaya community. Built with a focus on trust, respect, and deep utility, Śeṣa provides a purposeful platform centered around four foundational pillars: **Dharma, Artha, Kama, and Moksha**.
+An invite-only, India-first mobile community app designed for people belonging to, and those interested in learning about, the Ramanuja Sampradaya. Built with a focus on trust, respect, and deep utility, Śeṣa provides a purposeful platform centered around four foundational pillars: **Dharma, Artha, Kama, and Moksha**.
 
 ## 📖 Overview
 
