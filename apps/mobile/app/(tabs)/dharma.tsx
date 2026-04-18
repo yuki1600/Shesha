@@ -91,31 +91,31 @@ export default function DharmaScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <View style={styles.topRow}>
+        <View style={styles.filterContainer}>
+          <ScrollView
+            horizontal
+            contentContainerStyle={styles.filterRow}
+            showsHorizontalScrollIndicator={false}>
+            {filters.map((filter) => {
+              const active = filter === activeFilter;
+
+              return (
+                <Pressable
+                  key={filter}
+                  style={[styles.filterChip, active ? styles.filterChipActive : null]}
+                  onPress={() => setActiveFilter(filter)}>
+                  <Text style={[styles.filterText, active ? styles.filterTextActive : null]}>
+                    {filter}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+
           <Pressable style={styles.composeButton} onPress={() => router.push('/dharma/new')}>
             <FontAwesome name="plus" size={16} color={theme.colors.dharma} />
           </Pressable>
         </View>
-
-        <ScrollView
-          horizontal
-          contentContainerStyle={styles.filterRow}
-          showsHorizontalScrollIndicator={false}>
-          {filters.map((filter) => {
-            const active = filter === activeFilter;
-
-            return (
-              <Pressable
-                key={filter}
-                style={[styles.filterChip, active ? styles.filterChipActive : null]}
-                onPress={() => setActiveFilter(filter)}>
-                <Text style={[styles.filterText, active ? styles.filterTextActive : null]}>
-                  {filter}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
 
         <View style={styles.agendaCard}>
           {agenda.map((item) => (
@@ -213,9 +213,9 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     gap: 14,
   },
-  topRow: {
+  filterContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
     gap: 10,
   },
   searchWrap: {

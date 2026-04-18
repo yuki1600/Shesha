@@ -31,7 +31,7 @@ export function GlobalHeader({ query, setQuery, placeholder = 'Search...' }: Glo
         />
       </View>
 
-      <Pressable onPress={() => console.log('Messaging clicked')} style={styles.iconButton}>
+      <Pressable onPress={() => router.push('/messages')} style={styles.iconButton}>
         <FontAwesome name="commenting-o" size={24} color={theme.colors.text} />
       </Pressable>
     </View>
