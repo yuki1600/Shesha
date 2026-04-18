@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { GlobalHeader } from '@/components/GlobalHeader';
 import { theme } from '@/constants/theme';
 import {
   type KamaFilter,
@@ -96,22 +97,16 @@ export default function KamaScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
+      <GlobalHeader 
+        query={query} 
+        setQuery={setQuery} 
+        placeholder="Search profiles, cities, values" 
+      />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <View style={styles.searchWrap}>
-          <FontAwesome name="search" size={16} color={theme.colors.mutedText} />
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Search profiles, cities, values"
-            placeholderTextColor={theme.colors.tabInactive}
-            style={styles.searchInput}
-          />
-        </View>
-
         <ScrollView
           horizontal
           contentContainerStyle={styles.filterRow}

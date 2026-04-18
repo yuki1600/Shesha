@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { GlobalHeader } from '@/components/GlobalHeader';
 import { theme } from '@/constants/theme';
 import {
   type DharmaAgendaItem,
@@ -80,23 +81,17 @@ export default function DharmaScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
+      <GlobalHeader 
+        query={query} 
+        setQuery={setQuery} 
+        placeholder="Search requests, seva, local help" 
+      />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
         <View style={styles.topRow}>
-          <View style={styles.searchWrap}>
-            <FontAwesome name="search" size={16} color={theme.colors.mutedText} />
-            <TextInput
-              value={query}
-              onChangeText={setQuery}
-              placeholder="Search requests, seva, local help"
-              placeholderTextColor={theme.colors.tabInactive}
-              style={styles.searchInput}
-            />
-          </View>
-
           <Pressable style={styles.composeButton} onPress={() => router.push('/dharma/new')}>
             <FontAwesome name="plus" size={16} color={theme.colors.dharma} />
           </Pressable>
@@ -220,6 +215,7 @@ const styles = StyleSheet.create({
   },
   topRow: {
     flexDirection: 'row',
+    justifyContent: 'flex-end',
     gap: 10,
   },
   searchWrap: {

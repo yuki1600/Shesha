@@ -7,6 +7,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MokshaContentCard } from '@/components/MokshaContentCard';
+import { GlobalHeader } from '@/components/GlobalHeader';
 import { theme } from '@/constants/theme';
 import {
   addMokshaPostComment,
@@ -159,17 +160,17 @@ export default function MokshaScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
+      <GlobalHeader 
+        query={query} 
+        setQuery={setQuery} 
+        placeholder="Search creators, videos, reflections" 
+      />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
         <View style={styles.creatorSection}>
-          <View style={styles.sectionHeading}>
-            <Text style={styles.sectionTitle}>Creators</Text>
-            <Text style={styles.sectionSubtitle}>Follow the voices you want at the top of Moksha.</Text>
-          </View>
-
           <ScrollView
             horizontal
             contentContainerStyle={styles.creatorRow}
@@ -197,17 +198,6 @@ export default function MokshaScreen() {
               </View>
             ))}
           </ScrollView>
-        </View>
-
-        <View style={styles.searchWrap}>
-          <FontAwesome name="search" size={16} color={theme.colors.mutedText} />
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Search creators, videos, reflections"
-            placeholderTextColor={theme.colors.tabInactive}
-            style={styles.searchInput}
-          />
         </View>
 
         <View style={styles.sectionHeading}>

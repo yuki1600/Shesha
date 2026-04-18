@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { GlobalHeader } from '@/components/GlobalHeader';
 import { theme } from '@/constants/theme';
 import {
   type ArthaFilter,
@@ -84,22 +85,16 @@ export default function ArthaScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
+      <GlobalHeader 
+        query={query} 
+        setQuery={setQuery} 
+        placeholder="Search roles, companies, skills" 
+      />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <View style={styles.searchWrap}>
-          <FontAwesome name="search" size={16} color={theme.colors.mutedText} />
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Search roles, companies, skills"
-            placeholderTextColor={theme.colors.tabInactive}
-            style={styles.searchInput}
-          />
-        </View>
-
         <View style={styles.insightRow}>
           <View style={styles.insightCard}>
             <Text style={styles.insightLabel}>Profile fit</Text>
