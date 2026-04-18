@@ -468,7 +468,7 @@ export default function ProfileScreen() {
                   <Image source={{ uri: profile.profileImageUri }} style={styles.avatarImage} />
                 ) : (
                   <Image
-                    source={require('../../assets/images/sesha-logo.png')}
+                    source={require('../assets/images/sesha-logo.png')}
                     style={styles.avatarLogo}
                     resizeMode="contain"
                   />
