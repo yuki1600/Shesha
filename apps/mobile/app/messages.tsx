@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TextInput, Image, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 import { Stack, router } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { theme } from '@/constants/theme';
@@ -8,6 +10,10 @@ const MOCK_CHATS = [
   { id: '1', name: 'Ramanuja Dasan', text: 'Namaskaram, looking forward to the seva!', time: '10:45 AM', avatar: 'https://i.pravatar.cc/150?u=1' },
   { id: '2', name: 'Lakshmi N', text: 'Did you see the new post on Moksha?', time: 'Yesterday', avatar: 'https://i.pravatar.cc/150?u=2' },
   { id: '3', name: 'Srinavas', text: 'I have applied for the job you posted.', time: 'Tuesday', avatar: 'https://i.pravatar.cc/150?u=3' },
+  { id: '4', name: 'Keshav', text: 'Are we still meeting at the temple?', time: 'Monday', avatar: 'https://i.pravatar.cc/150?u=10' },
+  { id: '5', name: 'Anjali', text: 'Thanks for sharing the reading materials.', time: 'Monday', avatar: 'https://i.pravatar.cc/150?u=11' },
+  { id: '6', name: 'Madhav', text: 'Can you confirm the dates for the event?', time: 'Sun', avatar: 'https://i.pravatar.cc/150?u=12' },
+  { id: '7', name: 'Gopi', text: 'Radhe Radhe!', time: 'Sun', avatar: 'https://i.pravatar.cc/150?u=13' },
 ];
 
 const MOCK_STATUSES = [
@@ -27,18 +33,24 @@ export default function MessagesScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen options={{ title: 'Messages' }} />
+    <SafeAreaView style={styles.container}>
+      <Stack.Screen options={{ headerShown: false }} />
+      <StatusBar style="dark" />
       
-      <View style={styles.searchWrap}>
-        <FontAwesome name="search" size={16} color={theme.colors.mutedText} />
-        <TextInput
-          value={search}
-          onChangeText={setSearch}
-          placeholder="Search messages..."
-          placeholderTextColor={theme.colors.tabInactive}
-          style={styles.searchInput}
-        />
+      <View style={styles.headerRow}>
+        <Pressable onPress={() => router.back()} style={styles.backButton}>
+          <FontAwesome name="angle-left" size={32} color={theme.colors.text} />
+        </Pressable>
+        <View style={styles.searchWrap}>
+          <FontAwesome name="search" size={16} color={theme.colors.mutedText} />
+          <TextInput
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Search messages..."
+            placeholderTextColor={theme.colors.tabInactive}
+            style={styles.searchInput}
+          />
+        </View>
       </View>
 
       <View style={styles.statusWrap}>
@@ -64,6 +76,10 @@ export default function MessagesScreen() {
         />
       </View>
 
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>Messages</Text>
+      </View>
+
       <FlatList
         data={filteredChats}
         keyExtractor={(item) => item.id}
@@ -84,7 +100,7 @@ export default function MessagesScreen() {
         )}
         contentContainerStyle={styles.listContent}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -93,11 +109,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.canvas,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 16,
+    gap: 16,
+  },
+  backButton: {
+    padding: 4,
+  },
   searchWrap: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: theme.colors.surface,
-    margin: 16,
     paddingHorizontal: 12,
     borderRadius: 8,
     minHeight: 40,
@@ -197,5 +224,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colors.text,
     fontWeight: '600',
+  },
+  sectionHeader: {
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 4,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: theme.colors.text,
   },
 });
