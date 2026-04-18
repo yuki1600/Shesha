@@ -231,7 +231,7 @@ const serifTitle = Platform.select({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: shellCanvas,
+    backgroundColor: '#FFFFFF',
   },
   flex: {
     flex: 1,
