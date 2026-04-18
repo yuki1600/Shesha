@@ -17,14 +17,7 @@ import {
 } from '@/lib/mockApi';
 
 const filters: KamaFilter[] = ['All', 'Family-ready', 'Nearby', 'Traditional', 'Professional'];
-const shellCanvas = theme.colors.stoneCanvas;
-const shellCard = theme.colors.stoneCard;
-const shellSurface = theme.colors.stoneSurface;
-const shellBorder = theme.colors.stoneBorder;
-const shellAccent = theme.colors.sage;
-const shellAccentStrong = theme.colors.sageDeep;
-const shellAccentSoft = theme.colors.sageWash;
-const shellWarmText = theme.colors.earth;
+
 
 export default function KamaScreen() {
   const isFocused = useIsFocused();
@@ -215,7 +208,7 @@ export default function KamaScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: shellCanvas,
+    backgroundColor: '#fff0f5',
   },
   scroll: {
     flex: 1,
@@ -233,9 +226,9 @@ const styles = StyleSheet.create({
     minHeight: 48,
     paddingHorizontal: 16,
     borderRadius: 18,
-    backgroundColor: shellCard,
+    backgroundColor: theme.colors.card,
     borderWidth: 1,
-    borderColor: shellBorder,
+    borderColor: '#fadce3',
   },
   searchInput: {
     flex: 1,
@@ -252,21 +245,18 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: shellSurface,
-    borderWidth: 1,
-    borderColor: shellBorder,
+    backgroundColor: '#fce3e9',
   },
   filterChipActive: {
-    backgroundColor: shellAccentSoft,
-    borderColor: shellAccent,
+    backgroundColor: theme.colors.kama,
   },
   filterText: {
-    color: shellAccent,
+    color: theme.colors.kama,
     fontSize: 13,
     fontWeight: '700',
   },
   filterTextActive: {
-    color: shellAccentStrong,
+    color: '#ffffff',
   },
   summaryRow: {
     flexDirection: 'row',
@@ -277,9 +267,9 @@ const styles = StyleSheet.create({
     gap: 3,
     padding: 14,
     borderRadius: 18,
-    backgroundColor: shellCard,
+    backgroundColor: theme.colors.card,
     borderWidth: 1,
-    borderColor: shellBorder,
+    borderColor: '#fadce3',
   },
   summaryLabel: {
     color: theme.colors.mutedText,
@@ -296,9 +286,9 @@ const styles = StyleSheet.create({
     gap: 12,
     padding: 12,
     borderRadius: 28,
-    backgroundColor: shellCard,
+    backgroundColor: theme.colors.card,
     borderWidth: 1,
-    borderColor: shellBorder,
+    borderColor: '#fadce3',
   },
   profileOpenButton: {
     overflow: 'hidden',
@@ -357,7 +347,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   locationText: {
-    color: shellWarmText,
+    color: theme.colors.mutedText,
     fontSize: 13,
     fontWeight: '700',
   },
@@ -383,10 +373,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: shellSurface,
+    backgroundColor: '#fce3e9',
   },
   valueChipText: {
-    color: shellAccentStrong,
+    color: theme.colors.kama,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -402,9 +392,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: shellSurface,
-    borderWidth: 1,
-    borderColor: shellBorder,
+    backgroundColor: '#fce3e9',
   },
   secondaryButtonText: {
     color: theme.colors.text,
@@ -417,10 +405,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: shellAccentStrong,
+    backgroundColor: theme.colors.kama,
   },
   primaryButtonMuted: {
-    backgroundColor: shellWarmText,
+    backgroundColor: '#e690a3',
   },
   primaryButtonText: {
     color: '#ffffff',
@@ -431,9 +419,9 @@ const styles = StyleSheet.create({
     gap: 6,
     padding: 20,
     borderRadius: 24,
-    backgroundColor: shellCard,
+    backgroundColor: theme.colors.card,
     borderWidth: 1,
-    borderColor: shellBorder,
+    borderColor: '#fadce3',
   },
   emptyTitle: {
     color: theme.colors.text,

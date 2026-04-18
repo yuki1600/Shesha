@@ -289,7 +289,7 @@ export default function MokshaScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: theme.colors.sunWash,
+    backgroundColor: '#fffbef',
   },
   scroll: {
     flex: 1,
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: theme.colors.card,
     borderWidth: 1,
-    borderColor: theme.colors.border,
+    borderColor: '#f0dfb9',
   },
   creatorCardTop: {
     gap: 10,
@@ -353,13 +353,10 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: theme.colors.card,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
+    backgroundColor: '#fdf7e3',
   },
   followButtonActive: {
     backgroundColor: theme.colors.moksha,
-    borderColor: theme.colors.moksha,
   },
   followButtonText: {
     color: theme.colors.moksha,
@@ -367,7 +364,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   followButtonTextActive: {
-    color: theme.colors.card,
+    color: '#ffffff',
   },
   searchWrap: {
     flexDirection: 'row',
@@ -378,7 +375,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: theme.colors.card,
     borderWidth: 1,
-    borderColor: theme.colors.border,
+    borderColor: '#f0dfb9',
   },
   searchInput: {
     flex: 1,
@@ -391,7 +388,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: theme.colors.card,
     borderWidth: 1,
-    borderColor: theme.colors.border,
+    borderColor: '#f0dfb9',
   },
   emptyTitle: {
     color: theme.colors.text,

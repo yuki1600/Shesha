@@ -183,7 +183,13 @@ function ModeChip({
   onPress: () => void;
 }) {
   return (
-    <Pressable style={[styles.modeChip, active ? styles.modeChipActive : null]} onPress={onPress}>
+    <Pressable
+      style={({ pressed }) => [
+        styles.modeChip,
+        active && styles.modeChipActive,
+        pressed && !active && styles.modeChipPressed,
+      ]}
+      onPress={onPress}>
       <Text style={[styles.modeChipText, active ? styles.modeChipTextActive : null]}>
         {label}
       </Text>
@@ -302,7 +308,15 @@ const styles = StyleSheet.create({
     borderRadius: 14,
   },
   modeChipActive: {
-    backgroundColor: shellAccentSoft,
+    backgroundColor: '#ffffff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  modeChipPressed: {
+    backgroundColor: '#e5e7eb',
   },
   modeChipText: {
     color: theme.colors.mutedText,

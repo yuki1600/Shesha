@@ -57,8 +57,8 @@ export default function TabLayout() {
           name="action"
           options={{
             title: 'Action',
-            tabBarIcon: () => <TabBarIcon name="plus-circle" color={theme.colors.saffron} size={28} />,
-            tabBarLabelStyle: { display: 'none' },
+            tabBarIcon: () => <TabBarIcon name="plus-circle" color={theme.colors.text} size={32} />,
+            tabBarShowLabel: false,
           }}
           listeners={{
             tabPress: (e) => {
