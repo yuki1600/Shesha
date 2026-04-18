@@ -16,14 +16,14 @@ import {
   toggleKamaSaved,
 } from '@/lib/mockApi';
 
-const filters: KamaFilter[] = ['All', 'Family-ready', 'Nearby', 'Traditional', 'Professional'];
+
 
 
 export default function KamaScreen() {
   const isFocused = useIsFocused();
   const [profiles, setProfiles] = useState<KamaProfile[]>([]);
   const [query, setQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState<KamaFilter>('All');
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -54,24 +54,7 @@ export default function KamaScreen() {
       !search ||
       `${profile.name} ${profile.location} ${profile.title} ${profile.values.join(' ')}`.toLowerCase().includes(search);
 
-    if (!searchMatches) return false;
-
-    switch (activeFilter) {
-      case 'Family-ready':
-        return profile.highlights.some((item) => item.toLowerCase().includes('family'));
-      case 'Nearby':
-        return ['chennai', 'coimbatore'].some((city) =>
-          profile.location.toLowerCase().includes(city),
-        );
-      case 'Traditional':
-        return profile.highlights.some(
-          (item) => item.toLowerCase().includes('traditional') || item.toLowerCase().includes('temple'),
-        );
-      case 'Professional':
-        return /lead|doctor|architect|teacher|product/i.test(profile.title);
-      default:
-        return true;
-    }
+    return searchMatches;
   });
 
   const handleSave = async (id: string) => {
@@ -100,40 +83,21 @@ export default function KamaScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <ScrollView
+        <ScrollView 
           horizontal
-          contentContainerStyle={styles.filterRow}
-          showsHorizontalScrollIndicator={false}>
-          {filters.map((filter) => {
-            const active = filter === activeFilter;
-
-            return (
-              <Pressable
-                key={filter}
-                style={[styles.filterChip, active ? styles.filterChipActive : null]}
-                onPress={() => setActiveFilter(filter)}>
-                <Text style={[styles.filterText, active ? styles.filterTextActive : null]}>
-                  {filter}
-                </Text>
-              </Pressable>
-            );
-          })}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.navRow}>
+          {[
+            { id: 'Matchmaking', icon: 'heart', active: true },
+            { id: 'Networking', icon: 'users', active: false },
+            { id: 'Family', icon: 'home', active: false },
+          ].map((item) => (
+            <Pressable key={item.id} style={[styles.navButton, item.active && styles.navButtonActive]} onPress={() => {}}>
+              <FontAwesome name={item.icon as any} size={14} color={item.active ? '#ffffff' : theme.colors.kama} style={styles.navIcon} />
+              <Text style={[styles.navButtonTitle, item.active && styles.navButtonTitleActive]}>{item.id}</Text>
+            </Pressable>
+          ))}
         </ScrollView>
-
-        <View style={styles.summaryRow}>
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>Profiles</Text>
-            <Text style={styles.summaryValue}>{String(filteredProfiles.length).padStart(2, '0')}</Text>
-          </View>
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>Saved</Text>
-            <Text style={styles.summaryValue}>{String(savedCount).padStart(2, '0')}</Text>
-          </View>
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>Requested</Text>
-            <Text style={styles.summaryValue}>{String(requestedCount).padStart(2, '0')}</Text>
-          </View>
-        </View>
 
         {isLoading ? (
           <View style={styles.emptyCard}>
@@ -235,52 +199,42 @@ const styles = StyleSheet.create({
     color: theme.colors.text,
     fontSize: 14,
   },
-  filterRow: {
-    gap: 10,
-    paddingHorizontal: 2,
-  },
-  filterChip: {
-    minHeight: 36,
-    paddingHorizontal: 16,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fce3e9',
-  },
-  filterChipActive: {
-    backgroundColor: theme.colors.kama,
-  },
-  filterText: {
-    color: theme.colors.kama,
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  filterTextActive: {
-    color: '#ffffff',
-  },
-  summaryRow: {
+  navRow: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 12,
+    paddingHorizontal: 2,
+    marginBottom: 8,
   },
-  summaryCard: {
-    flex: 1,
-    gap: 3,
-    padding: 14,
-    borderRadius: 18,
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    minHeight: 46,
+    paddingHorizontal: 16,
     backgroundColor: theme.colors.card,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: '#fadce3',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
   },
-  summaryLabel: {
-    color: theme.colors.mutedText,
-    fontSize: 11,
-    fontWeight: '700',
-    textTransform: 'uppercase',
+  navButtonActive: {
+    backgroundColor: theme.colors.kama,
+    borderColor: theme.colors.kama,
   },
-  summaryValue: {
+  navIcon: {
+    marginRight: 2,
+  },
+  navButtonTitle: {
     color: theme.colors.text,
-    fontSize: 19,
     fontWeight: '800',
+    fontSize: 15,
+  },
+  navButtonTitleActive: {
+    color: '#ffffff',
   },
   profileCard: {
     gap: 12,

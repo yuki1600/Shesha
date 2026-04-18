@@ -25,13 +25,9 @@ import {
   toggleDharmaSaved,
 } from '@/lib/mockApi';
 
-const filters: DharmaFilter[] = ['All', 'Urgent', 'Events', 'Teaching', 'Local'];
-
 export default function DharmaScreen() {
   const isFocused = useIsFocused();
-  const [agenda, setAgenda] = useState<DharmaAgendaItem[]>([]);
   const [posts, setPosts] = useState<DharmaPost[]>([]);
-  const [activeFilter, setActiveFilter] = useState<DharmaFilter>('All');
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -46,7 +42,6 @@ export default function DharmaScreen() {
 
       if (!isMounted) return;
 
-      setAgenda(data.agenda);
       setPosts(data.posts);
       setIsLoading(false);
     };
@@ -59,13 +54,12 @@ export default function DharmaScreen() {
   }, [isFocused]);
 
   const filteredPosts = posts.filter((post) => {
-    const matchesFilter = activeFilter === 'All' || post.category === activeFilter;
     const search = query.trim().toLowerCase();
 
-    if (!search) return matchesFilter;
+    if (!search) return true;
 
     const haystack = `${post.title} ${post.description} ${post.organizer} ${post.location}`.toLowerCase();
-    return matchesFilter && haystack.includes(search);
+    return haystack.includes(search);
   });
 
   const handleSave = async (id: string) => {
@@ -91,43 +85,21 @@ export default function DharmaScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <View style={styles.filterContainer}>
-          <ScrollView
-            horizontal
-            contentContainerStyle={styles.filterRow}
-            showsHorizontalScrollIndicator={false}>
-            {filters.map((filter) => {
-              const active = filter === activeFilter;
-
-              return (
-                <Pressable
-                  key={filter}
-                  style={[styles.filterChip, active ? styles.filterChipActive : null]}
-                  onPress={() => setActiveFilter(filter)}>
-                  <Text style={[styles.filterText, active ? styles.filterTextActive : null]}>
-                    {filter}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-
-          <Pressable style={styles.composeButton} onPress={() => router.push('/dharma/new')}>
-            <FontAwesome name="plus" size={16} color={theme.colors.dharma} />
-          </Pressable>
-        </View>
-
-        <View style={styles.agendaCard}>
-          {agenda.map((item) => (
-            <View key={item.id} style={styles.agendaRow}>
-              <Text style={styles.agendaTime}>{item.time}</Text>
-              <View style={styles.agendaCopy}>
-                <Text style={styles.agendaTitle}>{item.title}</Text>
-                <Text style={styles.agendaNote}>{item.note}</Text>
-              </View>
-            </View>
+        <ScrollView 
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.navRow}>
+          {[
+            { id: 'Charity', icon: 'heart', active: true },
+            { id: 'Volunteering', icon: 'handshake-o', active: false },
+            { id: 'Temples', icon: 'bell', active: false },
+          ].map((item) => (
+            <Pressable key={item.id} style={[styles.navButton, item.active && styles.navButtonActive]} onPress={() => {}}>
+              <FontAwesome name={item.icon as any} size={14} color={item.active ? '#ffffff' : theme.colors.dharma} style={styles.navIcon} />
+              <Text style={[styles.navButtonTitle, item.active && styles.navButtonTitleActive]}>{item.id}</Text>
+            </Pressable>
           ))}
-        </View>
+        </ScrollView>
 
         {isLoading ? (
           <View style={styles.emptyCard}>
@@ -213,96 +185,42 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     gap: 14,
   },
-  filterContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  searchWrap: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    minHeight: 48,
-    paddingHorizontal: 16,
-    borderRadius: 18,
-    backgroundColor: theme.colors.card,
-    borderWidth: 1,
-    borderColor: '#d7ead2',
-  },
-  searchInput: {
-    flex: 1,
-    color: theme.colors.text,
-    fontSize: 14,
-  },
-  composeButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: theme.colors.card,
-    borderWidth: 1,
-    borderColor: '#d7ead2',
-  },
-  filterRow: {
-    gap: 10,
-    paddingHorizontal: 2,
-  },
-  filterChip: {
-    minHeight: 36,
-    paddingHorizontal: 16,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#e9f6e6',
-  },
-  filterChipActive: {
-    backgroundColor: theme.colors.dharma,
-  },
-  filterText: {
-    color: theme.colors.dharma,
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  filterTextActive: {
-    color: '#ffffff',
-  },
-  agendaCard: {
-    gap: 10,
-    padding: 16,
-    borderRadius: 24,
-    backgroundColor: theme.colors.card,
-    borderWidth: 1,
-    borderColor: '#d7ead2',
-  },
-  agendaRow: {
+  navRow: {
     flexDirection: 'row',
     gap: 12,
-    padding: 12,
-    borderRadius: 18,
-    backgroundColor: '#f7fcf5',
+    paddingHorizontal: 2,
+    marginBottom: 8,
   },
-  agendaTime: {
-    width: 62,
-    color: theme.colors.dharma,
-    fontSize: 13,
-    fontWeight: '800',
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    minHeight: 46,
+    paddingHorizontal: 16,
+    backgroundColor: theme.colors.card,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#d7ead2',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
   },
-  agendaCopy: {
-    flex: 1,
-    gap: 3,
+  navButtonActive: {
+    backgroundColor: theme.colors.dharma,
+    borderColor: theme.colors.dharma,
   },
-  agendaTitle: {
+  navIcon: {
+    marginRight: 2,
+  },
+  navButtonTitle: {
     color: theme.colors.text,
+    fontWeight: '800',
     fontSize: 15,
-    lineHeight: 21,
-    fontWeight: '700',
   },
-  agendaNote: {
-    color: theme.colors.mutedText,
-    fontSize: 13,
-    lineHeight: 18,
+  navButtonTitleActive: {
+    color: '#ffffff',
   },
   postCard: {
     gap: 14,

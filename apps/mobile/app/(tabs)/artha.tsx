@@ -16,12 +16,9 @@ import {
   toggleArthaSaved,
 } from '@/lib/mockApi';
 
-const filters: ArthaFilter[] = ['For you', 'Remote', 'Product', 'Engineering', 'Chennai'];
-
 export default function ArthaScreen() {
   const isFocused = useIsFocused();
   const [jobs, setJobs] = useState<ArthaJob[]>([]);
-  const [activeFilter, setActiveFilter] = useState<ArthaFilter>('For you');
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,20 +50,7 @@ export default function ArthaScreen() {
       !search ||
       `${job.role} ${job.company} ${job.location} ${job.skills.join(' ')}`.toLowerCase().includes(search);
 
-    if (!textMatches) return false;
-
-    switch (activeFilter) {
-      case 'Remote':
-        return job.location.toLowerCase().includes('remote');
-      case 'Product':
-        return job.role.toLowerCase().includes('product');
-      case 'Engineering':
-        return job.role.toLowerCase().includes('engineer');
-      case 'Chennai':
-        return job.location.toLowerCase().includes('chennai');
-      default:
-        return true;
-    }
+    return textMatches;
   });
 
   const savedCount = jobs.filter((job) => job.saved).length;
@@ -95,39 +79,20 @@ export default function ArthaScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <View style={styles.insightRow}>
-          <View style={styles.insightCard}>
-            <Text style={styles.insightLabel}>Profile fit</Text>
-            <Text style={styles.insightValue}>92%</Text>
-          </View>
-          <View style={styles.insightCard}>
-            <Text style={styles.insightLabel}>Saved</Text>
-            <Text style={styles.insightValue}>{String(savedCount).padStart(2, '0')}</Text>
-          </View>
-          <View style={styles.insightCard}>
-            <Text style={styles.insightLabel}>Applied</Text>
-            <Text style={styles.insightValue}>{String(appliedCount).padStart(2, '0')}</Text>
-          </View>
-        </View>
-
-        <ScrollView
+        <ScrollView 
           horizontal
-          contentContainerStyle={styles.filterRow}
-          showsHorizontalScrollIndicator={false}>
-          {filters.map((filter) => {
-            const active = filter === activeFilter;
-
-            return (
-              <Pressable
-                key={filter}
-                style={[styles.filterChip, active ? styles.filterChipActive : null]}
-                onPress={() => setActiveFilter(filter)}>
-                <Text style={[styles.filterText, active ? styles.filterTextActive : null]}>
-                  {filter}
-                </Text>
-              </Pressable>
-            );
-          })}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.navRow}>
+          {[
+            { id: 'Careers', icon: 'briefcase', active: true },
+            { id: 'Business', icon: 'building', active: false },
+            { id: 'Investments', icon: 'line-chart', active: false },
+          ].map((item) => (
+            <Pressable key={item.id} style={[styles.navButton, item.active && styles.navButtonActive]} onPress={() => {}}>
+              <FontAwesome name={item.icon as any} size={14} color={item.active ? '#ffffff' : theme.colors.artha} style={styles.navIcon} />
+              <Text style={[styles.navButtonTitle, item.active && styles.navButtonTitleActive]}>{item.id}</Text>
+            </Pressable>
+          ))}
         </ScrollView>
 
         {isLoading ? (
@@ -234,51 +199,41 @@ const styles = StyleSheet.create({
     color: theme.colors.text,
     fontSize: 14,
   },
-  insightRow: {
+  navRow: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 12,
+    paddingHorizontal: 2,
+    marginBottom: 8,
   },
-  insightCard: {
-    flex: 1,
-    gap: 3,
-    padding: 14,
-    borderRadius: 18,
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    minHeight: 46,
+    paddingHorizontal: 16,
     backgroundColor: theme.colors.card,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: '#d4e1fb',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
   },
-  insightLabel: {
-    color: theme.colors.mutedText,
-    fontSize: 11,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-  },
-  insightValue: {
-    color: theme.colors.text,
-    fontSize: 19,
-    fontWeight: '800',
-  },
-  filterRow: {
-    gap: 10,
-    paddingHorizontal: 2,
-  },
-  filterChip: {
-    minHeight: 36,
-    paddingHorizontal: 16,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#e8efff',
-  },
-  filterChipActive: {
+  navButtonActive: {
     backgroundColor: theme.colors.artha,
+    borderColor: theme.colors.artha,
   },
-  filterText: {
-    color: theme.colors.artha,
-    fontSize: 13,
-    fontWeight: '700',
+  navIcon: {
+    marginRight: 2,
   },
-  filterTextActive: {
+  navButtonTitle: {
+    color: theme.colors.text,
+    fontWeight: '800',
+    fontSize: 15,
+  },
+  navButtonTitleActive: {
     color: '#ffffff',
   },
   jobCard: {

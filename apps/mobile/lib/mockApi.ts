@@ -92,6 +92,8 @@ export type MokshaVideo = {
   comments: string[];
 };
 
+
+
 export type MokshaPost = {
   id: string;
   creatorId: string;
@@ -111,6 +113,18 @@ export type MokshaFeedItem = {
   id: string;
   type: 'video' | 'post';
   itemId: string;
+};
+
+export type Acharya = {
+  id: string;
+  name: string;
+  era: string;
+  timeline: string;
+  avatarUrl: string;
+  accent: string;
+  description: string;
+  works: string[];
+  matha: string | null;
 };
 
 const dharmaAgenda: DharmaAgendaItem[] = [
@@ -610,6 +624,64 @@ const mokshaFeed: MokshaFeedItem[] = [
   { id: 'feed-6', type: 'post', itemId: 'post-3' },
 ];
 
+const acharyas: Acharya[] = [
+  {
+    id: 'acharya-1',
+    name: 'Nathamuni',
+    era: 'Pre-Ramanuja',
+    timeline: '823 AD – 924 AD',
+    avatarUrl: buildAvatarUrl('Nathamuni', '#f3f4f6', '4b5563'),
+    accent: '#cbd5e1',
+    description: 'The first of the Sri Vaishnava acharyas who compiled the Naalayira Divya Prabandham and formalised temple worship.',
+    works: ['Nyaya Tattva', 'Yoga Rahasya'],
+    matha: null,
+  },
+  {
+    id: 'acharya-2',
+    name: 'Yamunacharya',
+    era: 'Pre-Ramanuja',
+    timeline: '916 AD – 1041 AD',
+    avatarUrl: buildAvatarUrl('Alavandar', '#ecfdf5', '166534'),
+    accent: '#86efac',
+    description: 'Also known as Alavandar, he laid the philosophical foundations for Ramanuja through his profound scholarly works.',
+    works: ['Stotra Ratna', 'Siddhi Traya', 'Agama Pramanya'],
+    matha: null,
+  },
+  {
+    id: 'acharya-3',
+    name: 'Ramanujacharya',
+    era: 'Ramanuja',
+    timeline: '1017 AD – 1137 AD',
+    avatarUrl: buildAvatarUrl('Ramanuja', '#fff7ed', '9a3412'),
+    accent: '#fbd38d',
+    description: 'The most important philosopher of the Sri Vaishnava tradition, propounding Vishishtadvaita and organizing massive temple reforms.',
+    works: ['Sri Bhashya', 'Gita Bhashya', 'Vedartha Sangraha', 'Gadyatrayam'],
+    matha: null,
+  },
+  {
+    id: 'acharya-4',
+    name: 'Vedanta Desika',
+    era: 'Post-Ramanuja',
+    timeline: '1268 AD – 1369 AD',
+    avatarUrl: buildAvatarUrl('Desika', '#fdf4ff', '86198f'),
+    accent: '#f472b6',
+    description: 'A brilliant polymath, composer, and architect of the Vadakalai intellectual tradition. His vast outputs defended the philosophy from multiple fronts.',
+    works: ['Rahasya Traya Sara', 'Paduka Sahasram', 'Tatparya Chandrika'],
+    matha: 'Parakala Mutt',
+  },
+  {
+    id: 'acharya-5',
+    name: 'Manavala Mamunigal',
+    era: 'Post-Ramanuja',
+    timeline: '1370 AD – 1443 AD',
+    avatarUrl: buildAvatarUrl('Mamunigal', '#eff6ff', '1e40af'),
+    accent: '#93c5fd',
+    description: 'Foremost leader of the Thenkalai tradition, spreading the deeper meanings of the Divya Prabandham through extensive commentaries.',
+    works: ['Upadesa Rathina Maalai', 'Thiruvaimozhi Nootrandhadhi'],
+    matha: 'Vanamamalai Mutt',
+  },
+];
+
 function wait(ms = 180) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -747,6 +819,7 @@ export async function listMokshaData() {
     videos: cloneList(mokshaVideos),
     posts: cloneList(mokshaPosts),
     feed: cloneList(mokshaFeed),
+    acharyas: cloneList(acharyas),
   };
 }
 
@@ -797,6 +870,11 @@ export async function toggleMokshaPostReaction(id: string) {
   post.likes += post.liked ? 1 : -1;
   post.likes = Math.max(0, post.likes);
   return cloneItem(post);
+}
+
+export async function getAcharya(id: string) {
+  await wait();
+  return cloneItem(findOrThrow(acharyas, id));
 }
 
 export async function addMokshaVideoComment(id: string, comment: string) {

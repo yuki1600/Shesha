@@ -7,6 +7,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MokshaContentCard } from '@/components/MokshaContentCard';
+import { MokshaHistory } from '@/components/MokshaHistory';
 import { GlobalHeader } from '@/components/GlobalHeader';
 import { theme } from '@/constants/theme';
 import {
@@ -31,6 +32,7 @@ export default function MokshaScreen() {
   const [posts, setPosts] = useState<MokshaPost[]>([]);
   const [feed, setFeed] = useState<MokshaFeedItem[]>([]);
   const [query, setQuery] = useState('');
+  const [activeTab, setActiveTab] = useState('Media');
   const [isLoading, setIsLoading] = useState(true);
   const [videoCommentDrafts, setVideoCommentDrafts] = useState<Record<string, string>>({});
   const [postCommentDrafts, setPostCommentDrafts] = useState<Record<string, string>>({});
@@ -170,7 +172,40 @@ export default function MokshaScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <View style={styles.creatorSection}>
+        <ScrollView 
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.navRow}>
+          {[
+            { id: 'Media', icon: 'play-circle' },
+            { id: 'Learning', icon: 'book' },
+            { id: 'History', icon: 'hourglass-half' },
+          ].map((item) => {
+            const active = item.id === activeTab;
+            return (
+              <Pressable
+                key={item.id}
+                style={[styles.navButton, active && styles.navButtonActive]}
+                onPress={() => setActiveTab(item.id)}>
+                <FontAwesome
+                  name={item.icon as any}
+                  size={14}
+                  color={active ? '#ffffff' : theme.colors.moksha}
+                  style={styles.navIcon}
+                />
+                <Text style={[styles.navButtonTitle, active && styles.navButtonTitleActive]}>
+                  {item.id}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+
+        {activeTab === 'History' ? (
+          <MokshaHistory query={query} />
+        ) : activeTab === 'Media' ? (
+          <>
+            <View style={styles.creatorSection}>
           <ScrollView
             horizontal
             contentContainerStyle={styles.creatorRow}
@@ -281,6 +316,13 @@ export default function MokshaScreen() {
             <Text style={styles.emptyBody}>Try a creator name or a simpler keyword.</Text>
           </View>
         )}
+      </>
+    ) : (
+      <View style={styles.emptyCard}>
+        <Text style={styles.emptyTitle}>Under Construction</Text>
+        <Text style={styles.emptyBody}>This section is coming soon.</Text>
+      </View>
+    )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -299,6 +341,43 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 30,
     gap: 16,
+  },
+  navRow: {
+    flexDirection: 'row',
+    gap: 12,
+    paddingHorizontal: 2,
+    marginBottom: 8,
+  },
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    minHeight: 46,
+    paddingHorizontal: 16,
+    backgroundColor: theme.colors.card,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#f0dfb9',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  navButtonActive: {
+    backgroundColor: theme.colors.moksha,
+    borderColor: theme.colors.moksha,
+  },
+  navIcon: {
+    marginRight: 2,
+  },
+  navButtonTitle: {
+    color: theme.colors.text,
+    fontWeight: '800',
+    fontSize: 15,
+  },
+  navButtonTitleActive: {
+    color: '#ffffff',
   },
   creatorSection: {
     gap: 12,
