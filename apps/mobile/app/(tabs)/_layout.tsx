@@ -3,7 +3,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs, usePathname } from 'expo-router';
 
 import { theme } from '@/constants/theme';
-import { ActionMenuModal } from '@/components/ActionMenuModal';
+import { ActionMenuModal } from '@/components/shared/ActionMenuModal';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];

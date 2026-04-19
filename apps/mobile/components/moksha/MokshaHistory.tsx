@@ -57,8 +57,8 @@ export function MokshaHistory({ query }: { query: string }) {
               <View style={styles.timelineLine} />
               <View style={styles.nodesList}>
                 {group.map((acharya) => (
-                  <Pressable 
-                    key={acharya.id} 
+                  <Pressable
+                    key={acharya.id}
                     style={styles.nodeCard}
                     onPress={() => router.push(`/acharya/${acharya.id}`)}>
                     <Image source={{ uri: acharya.avatarUrl }} style={styles.avatar} />
@@ -80,7 +80,7 @@ export function MokshaHistory({ query }: { query: string }) {
           </View>
         );
       })}
-      
+
       {filtered.length === 0 && (
          <View style={styles.card}>
             <Text style={styles.cardTitle}>No Acharyas found</Text>

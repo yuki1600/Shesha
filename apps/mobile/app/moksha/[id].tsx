@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { MokshaContentCard } from '@/components/MokshaContentCard';
+import { MokshaContentCard } from '@/components/moksha/MokshaContentCard';
 import { theme } from '@/constants/theme';
 import {
   addMokshaPostComment,
